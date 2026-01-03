@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trend & Correlation Analyzer</title>
+    <meta name="description"
+        content="A powerful tool for normalizing data series and calculating correlations with dynamic trend visualization.">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Trend Analyzer</h1>
+            <p class="subtitle">Normalize, correlate, and visualize multi-series data</p>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- Input Section -->
+            <section class="card input-section">
+                <div style="display: flex; flex-direction: column; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h2>Data Input</h2>
+                            <p class="subtitle" style="font-size: 0.8rem;">Click in the box below to paste Excel data
+                            </p>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn-secondary" onclick="addColumn()">+ Col</button>
+                            <button class="btn-secondary" onclick="addRow()">+ Row</button>
+                        </div>
+                    </div>
+
+                    <!-- Fallback Paste Area -->
+                    <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem;">
+                        <textarea id="manual-paste-area"
+                            placeholder="Click here and press Ctrl+V to import Excel data..." style="
+                            width: 100%; 
+                            height: 60px; 
+                            background: rgba(0,0,0,0.2); 
+                            border: 1px dashed rgba(255,255,255,0.2); 
+                            color: var(--text-secondary); 
+                            padding: 10px; 
+                            border-radius: 8px;
+                            font-size: 0.8rem;
+                            resize: none;
+                        "></textarea>
+                        <button id="manual-import-btn" class="btn-secondary"
+                            style="height: 60px; white-space: nowrap;">Import</button>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <table id="data-table" class="excel-table">
+                        <thead id="data-head">
+                            <tr>
+                                <th>Date</th>
+                                <th><input type="text" class="series-label" value="Series 1"></th>
+                                <th><input type="text" class="series-label" value="Series 2"></th>
+                                <th class="action-cell"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-body">
+                            <!-- Rows will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="control-footer">
+                    <div class="method-box">
+                        <label for="method-select">Normalization</label>
+                        <select id="method-select">
+                            <option value="standard">Z-Score (Standardization)</option>
+                            <option value="minmax">Min-Max (0 to 1)</option>
+                        </select>
+                    </div>
+                    <div class="action-btns">
+                        <button class="btn-secondary" onclick="clearTable()" style="color: var(--danger);">Clear
+                            Table</button>
+                        <button class="btn-primary" onclick="runAnalysis()">Run Analysis</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Output Section -->
+            <section class="card output-section">
+                <h2>Trend Visualization</h2>
+                <div class="chart-wrapper">
+                    <div class="chart-scroll-container">
+                        <div class="chart-container">
+                            <canvas id="trendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="results-meta">
+                    <div class="meta-cols">
+                        <div class="meta-col">
+                            <h3>Correlation Matrix</h3>
+                            <div id="correlation-container" class="correlation-info">
+                                <!-- Correlation results will appear here -->
+                            </div>
+                        </div>
+                        <div class="meta-col">
+                            <h3>AI Insights</h3>
+                            <div id="dynamic-insights" class="insights-container">
+                                <div style="color: var(--text-secondary); font-style: italic;">Run analysis to generate
+                                    insights...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Explainer Section -->
+        <section class="card explainer-section" style="margin-top: 2rem;">
+            <div class="explainer-grid">
+                <div class="theory-card">
+                    <h3><span class="dot" style="background:#6366f1"></span> Standardization (Z-Score)</h3>
+                    <p>Rescales data to have a <b>mean of 0</b> and a <b>standard deviation of 1</b>. This is ideal when
+                        your series have different scales (e.g., an index at 20,000 vs a stock at $100) but you want to
+                        compare their relative volatility and movements.</p>
+                </div>
+                <div class="theory-card">
+                    <h3><span class="dot" style="background:#10b981"></span> Min-Max Scaling</h3>
+                    <p>Squashes all data points into a fixed range of <b>0 to 1</b>. This is best for seeing which
+                        series reached their relative peak or trough at the same time, regardless of how much they
+                        actually moved in absolute terms.</p>
+                </div>
+                <div class="theory-card">
+                    <h3><span class="dot" style="background:#f59e0b"></span> Pearson Correlation</h3>
+                    <p>A value from <b>-1 to +1</b> measuring how closely two series move together.
+                        <br>• <b>1.0</b>: Perfect positive relationship.
+                        <br>• <b>0.0</b>: No linear relationship.
+                        <br>• <b>-1.0</b>: Perfect inverse relationship.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+
+</html>

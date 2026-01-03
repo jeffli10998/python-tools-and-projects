@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Paste Test</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        #status {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        #paste-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            margin: 10px 0;
+            min-height: 100px;
+        }
+
+        .test-output {
+            background: #e8f5e9;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Paste Functionality Test</h1>
+
+    <div id="status">Ready. Open console (F12) to see logs.</div>
+
+    <h2>Test 1: Paste Here (with tabs)</h2>
+    <div id="paste-area" contenteditable="true">
+        Click here and paste your Excel data (Ctrl+V)
+    </div>
+
+    <h2>Test 2: Direct Function Call</h2>
+    <button onclick="testPaste()">Test processPastedData()</button>
+
+    <div id="output" class="test-output"></div>
+
+    <script>
+        // Copy the processPastedData function logic here for testing
+        function processPastedData(text) {
+            console.log('=== Processing pasted data ===');
+            console.log('Raw text:', text);
+
+            const lines = text.trim().split(/\r?\n/);
+            console.log('Number of lines:', lines.length);
+
+            if (lines.length === 0) {
+                document.getElementById('output').innerHTML = 'ERROR: No lines found';
+                return;
+            }
+
+            const rawData = lines.map(line => line.split(/\t/));
+            console.log('Raw data (first row):', rawData[0]);
+            console.log('All raw data:', rawData);
+
+            // Check if first row is header
+            let hasHeader = false;
+            if (rawData[0].length > 1) {
+                const testVal = rawData[0][1].trim();
+                console.log('Testing for header, value:', testVal, 'isNaN:', isNaN(parseFloat(testVal)));
+                if (isNaN(parseFloat(testVal)) && testVal !== '') {
+                    hasHeader = true;
+                    console.log('✓ Header row detected!');
+                }
+            }
+
+            let headers = [];
+            let dataRows = [];
+
+            if (hasHeader) {
+                headers = rawData[0];
+                dataRows = rawData.slice(1);
+                console.log('Headers:', headers);
+            } else {
+                dataRows = rawData;
+                console.log('No headers, treating all as data');
+            }
+
+            console.log('Data rows:', dataRows.length);
+
+            // Display results
+            let html = '<h3>Results:</h3>';
+            html += '<p><strong>Has Header:</strong> ' + hasHeader + '</p>';
+            if (hasHeader) {
+                html += '<p><strong>Headers:</strong> ' + headers.join(', ') + '</p>';
+            }
+            html += '<p><strong>Data Rows:</strong> ' + dataRows.length + '</p>';
+            html += '<pre>' + JSON.stringify(dataRows, null, 2) + '</pre>';
+
+            document.getElementById('output').innerHTML = html;
+        }
+
+        // Test with sample data
+        function testPaste() {
+            const sampleData = "Date\tHang Seng\tHSBC\n2023-01-01\t20000\t60\n2023-01-02\t20100\t61\n2023-01-03\t19900\t59";
+            console.log('Testing with sample data...');
+            processPastedData(sampleData);
+        }
+
+        // Listen for paste events
+        document.addEventListener('paste', function (e) {
+            const clipboardData = e.clipboardData || window.clipboardData;
+            const pastedText = clipboardData.getData('text');
+
+            console.log('=== PASTE EVENT ===');
+            console.log('Pasted text:', pastedText);
+
+            const hasMultipleLines = pastedText.includes('\n') || pastedText.includes('\r');
+            const hasTabs = pastedText.includes('\t');
+
+            console.log('Has tabs:', hasTabs);
+            console.log('Has multiple lines:', hasMultipleLines);
+
+            if (hasTabs || (hasMultipleLines && pastedText.split(/\r?\n/).length >= 2)) {
+                console.log('✓ Detected as Excel/TSV data');
+                e.preventDefault();
+                processPastedData(pastedText);
+            } else {
+                console.log('Single value paste, allowing default');
+            }
+        });
+
+        document.getElementById('status').innerHTML = 'Ready. Try pasting Excel data or click the test button.';
+    </script>
+</body>
+
+</html>
