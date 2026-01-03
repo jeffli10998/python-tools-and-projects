@@ -1,0 +1,49 @@
+# LLM Fine-tuning with LoRA - GTX 1060 Compatible
+# Core dependencies for LoRA fine-tuning
+
+# PyTorch with CUDA support (install separately with: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118)
+# torch>=2.0.0
+# torchvision>=0.15.0
+# torchaudio>=2.0.0
+
+# Core ML libraries
+transformers>=4.35.0,<5.0.0
+peft>=0.6.0,<1.0.0
+datasets>=2.14.0,<3.0.0
+accelerate>=0.24.0,<1.0.0
+# bitsandbytes>=0.41.0  # May have Windows compatibility issues, install manually if needed
+
+# Training utilities (optional)
+# wandb>=0.15.0  # Optional, can be installed separately
+tensorboard>=2.14.0,<3.0.0
+scipy>=1.11.0,<2.0.0
+numpy>=1.24.0,<2.0.0
+pandas>=2.0.0,<3.0.0
+
+# Text processing
+tokenizers>=0.14.0,<1.0.0
+sentencepiece>=0.1.99,<1.0.0
+
+# Evaluation metrics (optional)
+# sacrebleu>=2.3.0,<3.0.0  # Optional
+# rouge-score>=0.1.2,<1.0.0  # Optional
+# bleu>=0.2.0,<1.0.0  # Optional
+
+# Essential utilities
+tqdm>=4.65.0,<5.0.0
+psutil>=5.9.0,<6.0.0
+colorama>=0.4.6,<1.0.0
+pyyaml>=6.0,<7.0.0
+jsonlines>=3.1.0,<4.0.0
+
+# Optional: For model conversion and optimization
+# onnx>=1.14.0,<2.0.0  # Optional
+# onnxruntime>=1.16.0,<2.0.0  # Optional
+
+# For Ollama integration
+requests>=2.31.0,<3.0.0
+httpx>=0.24.0,<1.0.0
+
+# Additional utilities for Windows compatibility
+chardet>=5.0.0,<6.0.0
+typing-extensions>=4.0.0,<5.0.0

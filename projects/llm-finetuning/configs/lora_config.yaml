@@ -1,0 +1,80 @@
+# LoRA Fine-tuning Configuration for GTX 1060 (6GB VRAM)
+model:
+  base_model: "microsoft/DialoGPT-medium"  # Open model, no auth required
+  model_type: "gpt2"  # Model architecture type
+  load_in_8bit: true  # Essential for 6GB VRAM
+  load_in_4bit: false  # Use 8bit for better quality on 6GB
+  device_map: "auto"
+  torch_dtype: "float16"
+  
+  # Alternative open models (update base_model above to use):
+  # "distilgpt2" - Smaller, faster training
+  # "gpt2" - Standard GPT-2 model
+  # "EleutherAI/gpt-neo-1.3B" - Larger model for better quality
+
+# LoRA Configuration - Optimized for GTX 1060
+lora:
+  r: 16  # LoRA rank - balance between quality and memory
+  alpha: 32  # LoRA alpha - typically 2x the rank
+  dropout: 0.1
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  target_modules:
+    - "c_attn"  # GPT-2/DialoGPT attention projection
+    - "c_proj"  # GPT-2/DialoGPT output projection
+    
+    # For Llama models, use these instead:
+    # - "q_proj"
+    # - "v_proj"
+    # - "k_proj"
+    # - "o_proj"
+    # - "gate_proj"
+    # - "up_proj"
+    # - "down_proj"
+
+# Training Configuration - Memory Optimized
+training:
+  output_dir: "./outputs"
+  num_train_epochs: 3
+  per_device_train_batch_size: 1  # Small batch size for 6GB VRAM
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 8  # Simulate larger batch size
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  lr_scheduler_type: "cosine"
+  logging_steps: 10
+  save_steps: 500
+  eval_steps: 500
+  save_total_limit: 3
+  evaluation_strategy: "steps"
+  load_best_model_at_end: true
+  metric_for_best_model: "eval_loss"
+  greater_is_better: false
+  report_to: []  # Disabled tensorboard to avoid dependency issues
+  dataloader_pin_memory: false  # Save memory
+  gradient_checkpointing: true  # Essential for memory efficiency
+  fp16: true  # Use mixed precision
+  remove_unused_columns: false
+
+# Data Configuration
+data:
+  dataset_path: "./data/training_data.jsonl"
+  validation_split: 0.1
+  max_seq_length: 512  # Reduced for memory efficiency
+  padding: "max_length"
+  truncation: true
+
+# Memory Optimization
+optimization:
+  use_gradient_checkpointing: true
+  dataloader_num_workers: 0  # Reduce CPU overhead
+  max_memory_mb: 5500  # Leave some headroom for GTX 1060
+  empty_cache_steps: 100  # Clear cache periodically
+
+# Logging and Monitoring
+logging:
+  log_level: "info"
+  log_on_each_node: false
+  logging_dir: "./outputs/logs"
+  run_name: "llama3-lora-finetune"

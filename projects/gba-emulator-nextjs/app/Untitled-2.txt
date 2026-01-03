@@ -1,0 +1,15 @@
+gba-emulator-nextjs/
+├── app/ (or pages/)
+│   ├── layout.js (or _app.js and _document.js in pages/)
+│   ├── page.js (this will be your main page, e.g., for the emulator)
+│   └── ... (other pages or route groups)
+├── components/
+│   ├── EmulatorDisplay.js       # Component to host the GBA emulator
+│   ├── GameControls.js          # Component for play, pause, load ROM, etc.
+│   ├── CheatInterface.js        # Component for modifying game characteristics
+│   └── Layout.js                # Optional: Main layout for your app
+├── public/
+│   └── ... (static assets like images, and potentially GBA BIOS if needed by emulator)
+├── lib/ or utils/
+│   └── emulatorService.js       # (Optional) For abstracting emulator interactions
+└── ... (other Next.JS files and folders: next.config.js, package.json, etc.)

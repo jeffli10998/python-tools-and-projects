@@ -1,0 +1,173 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+PYTHONPATH
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyTorch
+*.pth
+*.pt
+*.bin
+*.safetensors
+
+# Training outputs
+outputs/
+!outputs/.gitkeep
+models/downloaded/
+models/cache/
+
+# Logs
+*.log
+logs/
+tensorboard_logs/
+wandb/
+
+# Data (optional - uncomment if you don't want to track training data)
+# data/
+# !data/.gitkeep
+# !data/sample/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+.pytest_cache/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Hugging Face cache
+.cache/
+transformers_cache/
+hf_cache/
+
+# Model checkpoints (large files)
+checkpoint-*/
+pytorch_model.bin
+model.safetensors
+optimizer.pt
+scheduler.pt
+trainer_state.json
+
+# Configuration backups
+*.yaml.bak
+*.json.bak
+
+# Setup results
+setup_results.json
+
+# Training artifacts
+training_summary.json
+evaluation_results.json
+
+# Large model files (uncomment if needed)
+# *.gguf
+# *.ggml
+# *.q4_0
+# *.q4_1
+# *.q5_0
+# *.q5_1
+# *.q8_0
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# Documentation builds
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# IPython
+profile_default/
+ipython_config.py
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/

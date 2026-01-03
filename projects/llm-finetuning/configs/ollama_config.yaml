@@ -1,0 +1,46 @@
+# Ollama Fine-tuning Configuration
+# Optimized for GTX 1060 (6GB VRAM) and Ollama deployment
+
+# Model configuration
+model:
+  load_in_8bit: true
+  load_in_4bit: false
+  trust_remote_code: true
+
+# LoRA configuration
+lora:
+  r: 16                    # LoRA rank (lower = less memory, faster training)
+  alpha: 32               # LoRA alpha (scaling factor)
+  dropout: 0.1            # LoRA dropout
+  bias: "none"            # LoRA bias type
+  # Target modules will be auto-detected based on model architecture
+  target_modules: ["c_attn", "c_proj"]  # Default for GPT-2 style models
+
+# Training configuration
+training:
+  output_dir: "./models/ollama_finetuned"
+  num_train_epochs: 3
+  per_device_train_batch_size: 1    # Small batch size for GTX 1060
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 8     # Effective batch size = 1 * 8 = 8
+  learning_rate: 0.0002             # Conservative learning rate
+  weight_decay: 0.01
+  warmup_steps: 100
+  logging_steps: 10
+  save_steps: 500
+  save_total_limit: 3
+  report_to: []                     # Disable reporting to avoid dependencies
+
+# Data configuration
+data:
+  dataset_path: "./data/training_data.jsonl"
+  validation_split: 0.1
+  max_seq_length: 512              # Shorter sequences for memory efficiency
+  padding: true
+  truncation: true
+
+# Ollama specific configuration
+ollama:
+  base_model: "dolphin-llama3:8b"   # Your local Ollama model
+  output_model_name: "custom-assistant"  # Name for your fine-tuned model
+  system_prompt: "You are a helpful assistant that has been fine-tuned on custom data."

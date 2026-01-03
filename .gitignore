@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+Include/
+Lib/
+Scripts/
+etc/
+share/
+pyvenv.cfg
+.venv/
+venv/
+ENV/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Node.js
+node_modules/
+package-lock.json
+
+# Local Data/Temp
+temp/
+.lock
+*.log
+data/raw/
+data/processed/
+models/*.pkl
+results/
+playground/
+itinerary.json
+token.pickle
